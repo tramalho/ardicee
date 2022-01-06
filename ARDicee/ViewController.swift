@@ -22,26 +22,33 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Show statistics such as fps and timing information
         sceneView.showsStatistics = true
 
-        let material = SCNMaterial()
-        //material.diffuse.contents = UIColor.red
-        material.diffuse.contents = UIImage(named: "art.scnassets/moon.jpeg")
-
-        
-        //let shape = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.01)
-        let shape = SCNSphere(radius: 0.2)
-        shape.materials = [material]
-        
-        let node = SCNNode(geometry: shape)
-        node.position = SCNVector3(0, 0.1, -0.5)
-        
-        sceneView.scene.rootNode.addChildNode(node)
-        sceneView.autoenablesDefaultLighting = true
-        
+//        let material = SCNMaterial()
+//        //material.diffuse.contents = UIColor.red
+//        material.diffuse.contents = UIImage(named: "art.scnassets/moon.jpeg")
+//
+//
+//        //let shape = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0.01)
+//        let shape = SCNSphere(radius: 0.2)
+//        shape.materials = [material]
+//
+//        let node = SCNNode(geometry: shape)
+//        node.position = SCNVector3(0, 0.1, -0.5)
+//
+//        sceneView.scene.rootNode.addChildNode(node)
+//        sceneView.autoenablesDefaultLighting = true
 //        // Create a new scene
 //        let scene = SCNScene(named: "art.scnassets/ship.scn")!
 //
 //        // Set the scene to the view
 //        sceneView.scene = scene
+        
+        
+        let diceScene = SCNScene(named: "art.scnassets/diceCollada.scn")
+        
+        if let diceNode = diceScene?.rootNode.childNode(withName: "Dice", recursively: true) {
+            diceNode.position = SCNVector3(0, 0, -0.1)
+            sceneView.scene.rootNode.addChildNode(diceNode)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
