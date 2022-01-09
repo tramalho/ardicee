@@ -98,4 +98,22 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             node.addChildNode(planeNode)
         }
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        if let touch = touches.first {
+            
+            let touchLocation = touch.location(in: sceneView)
+            
+            guard let query = sceneView.raycastQuery(from: touchLocation, allowing: .existingPlaneGeometry, alignment: .horizontal) else { return }
+            
+            let results = sceneView.session.raycast(query)
+            
+            if results.isEmpty {
+                print("touched somewhere else")                
+            } else {
+                print("touched the plane \(results)")
+            }
+        }
+    }
 }
