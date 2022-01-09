@@ -109,10 +109,18 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             
             let results = sceneView.session.raycast(query)
             
-            if results.isEmpty {
-                print("touched somewhere else")                
-            } else {
-                print("touched the plane \(results)")
+            if let safeResult = results.first {
+                
+                let diceScene = SCNScene(named: "art.scnassets/diceCollada.scn")
+        
+                if let diceNode = diceScene?.rootNode.childNode(withName: "Dice", recursively: true) {
+                    
+                    let coord = safeResult.worldTransform.columns.3
+                    
+                    diceNode.position = SCNVector3(coord.x, Float(coord.y) + Float(diceNode.boundingSphere.radius), coord.z)
+                    
+                    sceneView.scene.rootNode.addChildNode(diceNode)
+                }
             }
         }
     }
