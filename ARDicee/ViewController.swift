@@ -120,8 +120,18 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                     diceNode.position = SCNVector3(coord.x, Float(coord.y) + Float(diceNode.boundingSphere.radius), coord.z)
                     
                     sceneView.scene.rootNode.addChildNode(diceNode)
+                                        
+                    diceNode.runAction(SCNAction.rotateBy(x: randomValue(), y: 0, z: randomValue(), duration: 0.5))
                 }
             }
         }
+    }
+    
+    private func randomValue() -> CGFloat {
+        
+        let var1 = Float((arc4random_uniform(4) + 1))
+        let var2 = Float(Float.pi / 2)
+        
+        return CGFloat((var1 * var2) * 7)
     }
 }
