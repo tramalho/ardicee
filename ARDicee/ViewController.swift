@@ -13,6 +13,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
     
+    private var diceArray:[SCNNode] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -120,12 +122,36 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                     diceNode.position = SCNVector3(coord.x, Float(coord.y) + Float(diceNode.boundingSphere.radius), coord.z)
                     
                     sceneView.scene.rootNode.addChildNode(diceNode)
+                    
+                    diceArray.append(diceNode)
                                         
-                    diceNode.runAction(SCNAction.rotateBy(x: randomValue(), y: 0, z: randomValue(), duration: 0.5))
+                    roll(diceNode)
                 }
             }
         }
     }
+    
+    
+    @IBAction func rollAgain(_ sender: UIBarButtonItem) {
+        rollAll()
+    }
+    
+    
+    
+    private func roll(_ diceNode: SCNNode) {
+        diceNode.runAction(SCNAction.rotateBy(x: randomValue(), y: 0, z: randomValue(), duration: 0.5))
+    }
+    
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        rollAll()
+    }
+    
+    private func rollAll() {
+        for dice in diceArray {
+            roll(dice)
+        }
+    }
+    
     
     private func randomValue() -> CGFloat {
         
